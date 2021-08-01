@@ -1,0 +1,58 @@
+﻿@model IEnumerable<FightMatrix.Models.Fighter>
+
+<table class="table table-hover table-sm">
+    <thead>
+        <tr>
+            <th>
+                Rank
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Name)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Category)
+            </th>
+            <th>
+                Record
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.RatingPoints)
+            </th>
+            <th>
+                <a onclick="showInPopup('@Url.Action("AddOrEdit", "Fighters", new { id = 0 }, Context.Request.Scheme)','New Fighter')" class="btn btn-success text-white"> Add Fighter</a>
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        @{int index = 1;
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @index
+                </td>
+                <td>
+                    <a asp-action="Details" asp-route-id="@item.ID" class="fighter-info">@Html.DisplayFor(modelItem => item.Name)</a>
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Category)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Wins)-@Html.DisplayFor(modelItem => item.Loses)-@Html.DisplayFor(modelItem => item.Draws), @Html.DisplayFor(modelItem => item.NC)NC
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.RatingPoints)
+                </td>
+                <td>
+                    <div>
+                        <a onclick="showInPopup('@Url.Action("AddOrEdit", "Fighters", new { id = item.ID }, Context.Request.Scheme)','Update')" class="btn btn-info text-white">Edit</a>
+                        <form asp-action="Delete" asp-route-id="@item.ID" onsubmit="return jQueryAjaxDelete(this)" class="d-inline">
+                            <input type="submit" value="Delete" class="btn btn-danger" />
+                        </form>
+                    </div>
+                </td>
+            </tr>
+            index++; }
+        }
+    </tbody>
+</table>
